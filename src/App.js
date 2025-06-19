@@ -5,7 +5,6 @@ import SignUp from './components/SignUp';
 import SignIn from './components/SignIn';
 import Chat from './components/Chat';
 import Navbar from './components/Navbar';
-
 function App() {
   const [user, setUser] = useState(null);
 
