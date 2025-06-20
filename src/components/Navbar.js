@@ -1,19 +1,17 @@
 import { useNavigate } from 'react-router-dom';
-import { auth } from '../firebase/firebaseConfig';
-import { signOut } from 'firebase/auth';
 
-function Navbar({ user }) {
+function Navbar({ user, setUser }) {
   const navigate = useNavigate();
 
-  const handleSignOut = async () => {
-    await signOut(auth);
+  const handleSignOut = () => {
+    setUser(null); // Clear user state
     navigate('/signin');
   };
 
   return (
     <nav className="bg-blue-600 text-white p-4 flex justify-between items-center">
       <div className="flex items-center">
-        <img src="/assets/logo.png" alt="Logo" className="w-10 mr-2" />
+        <img src="https://via.placeholder.com/150x150.png?text=Logo" alt="Logo" className="w-10 mr-2" />
         <h1 className="text-xl font-bold">AI Chat App</h1>
       </div>
       <div>

@@ -1,28 +1,27 @@
 import { useState } from 'react';
-import { auth } from '../firebase/firebaseConfig';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 
-function SignUp() {
+function SignUp({ setUser }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleSignUp = async (e) => {
+  const handleSignUp = (e) => {
     e.preventDefault();
-    try {
-      await createUserWithEmailAndPassword(auth, email, password);
-      navigate('/chat');
-    } catch (err) {
-      setError(err.message);
+    if (!email || !password) {
+      setError('Email and password are required');
+      return;
     }
+    // Mock sign-up: Store user in local state
+    setUser({ email });
+    navigate('/chat');
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-        <img src="/assets/logo.png" alt="Logo" className="w-24 mx-auto mb-4" />
+        <img src="https://via.placeholder.com/150x150.png?text=Logo" alt="Logo" className="w-24 mx-auto mb-4" />
         <h2 className="text-2xl font-bold text-center mb-6">Sign Up</h2>
         {error && <p className="text-red-500 mb-4">{error}</p>}
         <form onSubmit={handleSignUp}>

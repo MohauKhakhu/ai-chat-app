@@ -1,37 +1,23 @@
-import { useState, useEffect } from 'react';
-import { db } from '../firebase/firebaseConfig';
-import { collection, addDoc, onSnapshot, query, orderBy } from 'firebase/firestore';
+import { useState } from 'react';
 
 function Chat({ user }) {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
 
-  useEffect(() => {
-    const q = query(collection(db, 'messages'), orderBy('timestamp', 'asc'));
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const msgs = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-      setMessages(msgs);
-    });
-    return () => unsubscribe();
-  }, []);
-
-  const handleSend = async (e) => {
+  const handleSend = (e) => {
     e.preventDefault();
     if (!message.trim()) return;
 
-    // Save user message
-    await addDoc(collection(db, 'messages'), {
-      text: message,
-      sender: user.email,
-      timestamp: new Date(),
-    });
+    // Add user message
+    const userMessage = { text: message, sender: user.email };
+    setMessages((prev) => [...prev, userMessage]);
 
     // Simulate AI response
-    await addDoc(collection(db, 'messages'), {
+    const aiMessage = {
       text: `AI Insight: You said "${message}"! (For advanced AI, check https://x.ai/api)`,
       sender: 'AI',
-      timestamp: new Date(),
-    });
+    };
+    setMessages((prev) => [...prev, aiMessage]);
 
     setMessage('');
   };
@@ -41,9 +27,9 @@ function Chat({ user }) {
       <div className="bg-white w-full max-w-2xl rounded-lg shadow-lg p-6">
         <h2 className="text-2xl font-bold mb-4">Chat with AI Insight</h2>
         <div className="h-96 overflow-y-auto mb-4 p-4 bg-gray-100 rounded">
-          {messages.map((msg) => (
+          {messages.map((msg, index) => (
             <div
-              key={msg.id}
+              key={index}
               className={`mb-2 p-2 rounded ${
                 msg.sender === user.email ? 'bg-blue-200 ml-auto' : 'bg-green-200'
               }`}
