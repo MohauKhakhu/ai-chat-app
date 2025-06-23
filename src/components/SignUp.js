@@ -13,7 +13,6 @@ function SignUp({ setUser }) {
       setError('Email and password are required');
       return;
     }
-    // Mock sign-up: Store user in local state
     setUser({ email });
     navigate('/chat');
   };

@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { useState } from 'react';
 import SignUp from './components/SignUp';
 import SignIn from './components/SignIn';
-import Chat from './components/Chat';
+import Chat from './components/chat';
 import Navbar from './components/Navbar';
 
 function App() {
